@@ -7,7 +7,6 @@ import (
 var wordstoguess string
 var hiddenWord = []rune{}
 
-
 func initWordToGuess(word string) {
 	wordstoguess = word
 }
@@ -36,12 +35,12 @@ func Printword() {
 }
 
 func main() {
-	initWordToGuess("KheirEddinE")
+	initWordToGuess("hind")
 	initHiddenWord()
 	Contains('h')
 	Printword()
-	Contains('K')
+	Contains('i')
 	Printword()
-	Contains('E')
+	Contains('n')
 	Printword()
 }
