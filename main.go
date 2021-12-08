@@ -2,45 +2,36 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
-
-var wordstoguess string
-var hiddenWord = []rune{}
-
-func initWordToGuess(word string) {
-	wordstoguess = word
-}
-
-func initHiddenWord() {
-	for range wordstoguess {
-		hiddenWord = append(hiddenWord, '_')
-	}
-}
-
-func Contains(letter rune) {
-	for i, char := range wordstoguess {
-		if char == letter {
-			hiddenWord[i] = char
-		}
-	}
-}
-
-func Printword() {
-	for _, char := range hiddenWord {
-		fmt.Print(string(char))
-		fmt.Print(" ")
-	}
-
-	fmt.Println()
-}
-
 func main() {
-	initWordToGuess("hind")
-	initHiddenWord()
-	Contains('h')
-	Printword()
-	Contains('i')
-	Printword()
-	Contains('n')
-	Printword()
+	
+	Load(os.Args[1])
+
+	g, err := New(10, PickWord())
+
+	if err != nil {
+		fmt.Printf("Could not create game: %v\n", err)
+		os.Exit(1)
+	}
+	
+	DrawWelcome()
+	guess := ""
+	for {
+		Draw(g, guess)
+
+		switch g.State {
+		case "won", "lost":
+			os.Exit(0)
+		}
+
+		l, err := ReadGuess()
+		if err != nil {
+			fmt.Printf("Could not read from terminal: %v", err)
+			os.Exit(1)
+		}
+		guess = l
+
+		g.MakeAGuess(guess)
+	}
 }
