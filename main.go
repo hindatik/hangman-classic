@@ -5,8 +5,12 @@ import (
 	"os"
 )
 func main() {
-	
-	Load(os.Args[1])
+	if len(os.Args) < 2  {
+		wordsfile := "words.txt"
+		Load(wordsfile)
+	} else {
+		Load(os.Args[1])
+	}
 
 	g, err := New(10, PickWord())
 

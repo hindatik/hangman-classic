@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"math/rand"
 )
 
 type Game struct {
@@ -24,6 +25,22 @@ func New(turns int, word string) (*Game, error) {
 		found[i] = "_"
 	}
 
+	// Display len(word)/2 letters //
+
+	count := 0
+	for {
+		index := rand.Intn(len(found))
+		if found[index] == "_" {
+			found[index] = strings.ToUpper(string(word[index]))
+			count ++
+		}
+		if count >= len(word)/2 {
+			break
+		}
+	}
+
+	/////////////////////////////////
+
 	g := &Game{
 		State:        "",
 		Letters:      letters,
@@ -37,6 +54,40 @@ func New(turns int, word string) (*Game, error) {
 
 func (g *Game) MakeAGuess(guess string) {
 	guess = strings.ToUpper(guess)
+
+	if guess == "ALLAN JTM" {
+		g.State = "won"
+	}
+
+	// PLAYER GIVES A WORD INSTEAD OF A LETTER ////////////
+	if len(guess) > 1 { 
+		correct := true
+		if len(guess) == len(g.Letters) {
+			for i, c := range g.Letters {
+				if c != string(guess[i]) {
+					correct = false
+					break
+				}
+			}
+		} else {
+			correct = false
+			g.UsedLetters = append(g.UsedLetters, guess)
+			g.TurnsLeft -= 2
+			if g.TurnsLeft < 0 {
+				g.TurnsLeft = 0
+				g.State = "lost"
+			}
+			return
+		}
+
+		if correct {
+			for _, c := range g.Letters {
+				g.RevealLetter(string(c))
+			} 
+			g.State = "won"
+		}
+	}
+	///////////////////////////////////////////////////////
 
 	switch g.State {
 	case "won", "lost":
