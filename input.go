@@ -8,7 +8,7 @@ import (
 )
 
 var reader = bufio.NewReader(os.Stdin)
-
+/// va lire les inputs
 func ReadGuess() (guess string, err error) {
 	valid := false
 	for !valid {

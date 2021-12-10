@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"log"
 )
+///affiche le nom du jeu 
 
 func DrawWelcome() {
 	fmt.Println(`
@@ -30,6 +31,8 @@ func check(e error) {
         panic(e)
     }
 }
+
+///ca nous sert a afficher le petit pendu
 func drawTurns(l int) {
 	file, err := os.Open("hangman.txt")
 	errfunc(err)

@@ -7,11 +7,11 @@ import (
 )
 
 type Game struct {
-	State        string   // Game state
-	Letters      []string // Letters in the word to find
-	FoundLetters []string // Good guesses
-	UsedLetters  []string // Used letters
-	TurnsLeft    int      // Remaining attempts
+	State        string   // état de la partie
+	Letters      []string // Lettres a trouver
+	FoundLetters []string // lettres trouver
+	UsedLetters  []string // lettres utilisé
+	TurnsLeft    int      // Tours restant 
 }
 
 func New(turns int, word string) (*Game, error) {
@@ -25,7 +25,7 @@ func New(turns int, word string) (*Game, error) {
 		found[i] = "_"
 	}
 
-	// Display len(word)/2 letters //
+	// affichage des lettres du début avec len(word)/2 //
 
 	count := 0
 	for {
@@ -52,6 +52,8 @@ func New(turns int, word string) (*Game, error) {
 	return g, nil
 }
 
+/// petit easter egg
+
 func (g *Game) MakeAGuess(guess string) {
 	guess = strings.ToUpper(guess)
 
@@ -59,7 +61,7 @@ func (g *Game) MakeAGuess(guess string) {
 		g.State = "won"
 	}
 
-	// PLAYER GIVES A WORD INSTEAD OF A LETTER ////////////
+	// le joueur donne un mot a la place d'une lettre ////////////
 	if len(guess) > 1 { 
 		correct := true
 		if len(guess) == len(g.Letters) {
